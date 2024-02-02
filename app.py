@@ -2,7 +2,7 @@
 from dotenv import load_dotenv
 
 load_dotenv() ## load all the environment variables
-
+import time
 import streamlit as st
 import os
 import google.generativeai as genai
@@ -17,7 +17,7 @@ def get_gemini_repsonse(input,image,prompt):
     response=model.generate_content([input,image[0],prompt])
     return response.text
 
-def input_image_setup(uploaded_file):
+def input_image_setup(uploaded_file, img_file_buffer):
     # Check if a file has been uploaded
     if uploaded_file is not None:
         # Read the file into bytes
@@ -30,23 +30,41 @@ def input_image_setup(uploaded_file):
             }
         ]
         return image_parts
+    elif img_file_buffer is not None:
+        # Check if an image has been captured
+        # Read the image file buffer as bytes
+        bytes_data = img_file_buffer.getvalue()
+
+        image_parts = [
+            {
+                "mime_type": "image/jpeg",  # Assuming JPEG format
+                "data": bytes_data
+            }
+        ]
+        return image_parts
     else:
         raise FileNotFoundError("No file uploaded")
 ##initialize our streamlit app
 
-st.set_page_config(page_title="Nutri-Genie App",page_icon=":apple:",layout="wide",initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Nutri-Genie App",page_icon=":apple:",initial_sidebar_state="collapsed")
 
-st.header("Nutri-Genie App")
+st.header("Nutri-Genie App 🥙")
 # input=st.text_input("Input Prompt: ",key="input")
 input = ""
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-image=""
-if uploaded_file is not None:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image.", use_column_width=True)
+# Choose upload method
+upload_option = st.radio("Choose upload method:", ("Upload Photo", "Take a Picture"))
 
+if upload_option == "Upload Photo":
+    uploaded_file = st.file_uploader("Upload your meal Image...", type=["jpg", "jpeg", "png"])
+    image = ""
+    if uploaded_file is not None:
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Image.", use_column_width=True)
+else:
+    uploaded_file = None
+    img_file_buffer = st.camera_input("Capture your meal")
 
-submit=st.button("Tell me the total calories")
+submit = st.button("Analyse my Meal🍴")
 
 input_prompt="""
 You are an expert in nutritionist where you need to see the food items from the image
@@ -77,7 +95,10 @@ You are an expert in nutritionist where you need to see the food items from the 
 ## If submit button is clicked
 
 if submit:
-    image_data=input_image_setup(uploaded_file)
-    response=get_gemini_repsonse(input_prompt,image_data,input)
-    st.subheader("The Response is")
-    st.write(response)
+    with st.spinner('Analyzing your meal...'):
+        image_data = input_image_setup(uploaded_file, img_file_buffer)
+
+        response = get_gemini_repsonse(input_prompt, image_data, "")
+        # time.sleep(3)  # Simulating a delay. You can remove this line in the actual implementation.
+        st.subheader("Your Nutritional Analysis:")
+        st.write(response)
