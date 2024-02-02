@@ -50,9 +50,14 @@ st.set_page_config(page_title="Nutri-Genie App",page_icon=":apple:",initial_side
 
 st.header("Nutri-Genie App 🥙")
 # input=st.text_input("Input Prompt: ",key="input")
+# Add GitHub icon and link
+st.markdown("[![GitHub](https://img.shields.io/badge/GitHub-Visit-brightgreen?style=for-the-badge&logo=github)](https://github.com/HimanshuMohanty-Git24/NutriGenie-Ai)")
 input = ""
 # Choose upload method
 upload_option = st.radio("Choose upload method:", ("Upload Photo", "Take a Picture"))
+
+uploaded_file = None
+img_file_buffer = None
 
 if upload_option == "Upload Photo":
     uploaded_file = st.file_uploader("Upload your meal Image...", type=["jpg", "jpeg", "png"])
@@ -61,7 +66,6 @@ if upload_option == "Upload Photo":
         image = Image.open(uploaded_file)
         st.image(image, caption="Uploaded Image.", use_column_width=True)
 else:
-    uploaded_file = None
     img_file_buffer = st.camera_input("Capture your meal")
 
 submit = st.button("Analyse my Meal🍴")
@@ -97,8 +101,6 @@ You are an expert in nutritionist where you need to see the food items from the 
 if submit:
     with st.spinner('Analyzing your meal...'):
         image_data = input_image_setup(uploaded_file, img_file_buffer)
-
         response = get_gemini_repsonse(input_prompt, image_data, "")
-        # time.sleep(3)  # Simulating a delay. You can remove this line in the actual implementation.
         st.subheader("Your Nutritional Analysis:")
         st.write(response)
