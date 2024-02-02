@@ -2,6 +2,10 @@
 
 End-to-End Nutritionist Generative AI Doctor using Google Gemini Pro Vision Large Image Models.
 
+# Demo 📦✅
+
+Live App link : [NutriGenie](https://nutrigenie-ai.streamlit.app/)
+
 ## Overview
 
 NutriGenie-Ai is an application that leverages Google Gemini Pro Vision Large Image Models to provide nutritional analysis of your meals. The AI-powered nutritionist analyzes images of your meals, calculates total calories, provides details on each food item's calorie intake, and offers a nutritional breakdown.
