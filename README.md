@@ -1,6 +1,8 @@
 # NutriGenie-Ai 🍏💻
 
 End-to-End Nutritionist Generative AI Doctor using Google Gemini Pro Vision Large Image Models.
+![image](https://github.com/HimanshuMohanty-Git24/NutriGenie-Ai/assets/94133298/1a946072-4a89-456a-9d5d-44473fd66602)
+
 
 # Demo 📦✅
 
