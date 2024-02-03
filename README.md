@@ -39,10 +39,9 @@ NutriGenie-Ai is an application that leverages Google Gemini Pro Vision Large Im
    ```
 
 4. **Obtain Google Gemini Pro Vision API Key:**
-   - Visit the [Google Cloud Console](https://console.cloud.google.com/).
+   - Visit the [Google Makersuite](https://makersuite.google.com/app/).
    - Create a new project or select an existing one.
-   - Enable the "Vision AI" API for your project.
-   - Create API credentials (API key) and restrict usage as needed.
+   - Create API credentials (API key) and use it in project.
 
 5. **Set up environment variables:**
    - Create a `.env` file in the project root.
